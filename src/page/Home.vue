@@ -2,41 +2,63 @@
     <div>
         <swipe :auto="4000" class="home-wrapper">
             <swipe-item>
-                <img src="../images/1482312358874_.jpg">
+                <img class="header-img" src="../images/1482312358874_.jpg">
             </swipe-item>
             <swipe-item>
-                <img src="../images/1486821984806_.jpg">
+                <img class="header-img" src="../images/1486821984806_.jpg">
             </swipe-item>
             <swipe-item>
-                <img src="../images/T003R720x288M000002mryCr3VtdR3.jpg">
+                <img class="header-img" src="../images/T003R720x288M000002mryCr3VtdR3.jpg">
             </swipe-item>
             <swipe-item>
-                <img src="../images/T003R720x288M000004Zu0uz1PYd2t.jpg">
+                <img class="header-img" src="../images/T003R720x288M000004Zu0uz1PYd2t.jpg">
             </swipe-item>
         </swipe>
-        <table class="audio-list">
-            <tbody>
-                <tr>
-                    <td><img src="../images/T003R720x288M000004Zu0uz1PYd2t.jpg"></td>
-                    <td><span>aaa</span></td>
-                </tr>
-                <tr>
-                    <td><img src="../images/T003R720x288M000004Zu0uz1PYd2t.jpg"></td>
-                    <td><span>aaa</span></td>
-                </tr>
-            </tbody>
-        </table>
+        <audio id="music" v-bind:src="song"
+             v-bind:autoplay="dataAutoPlay"
+             v-bind:loop="isLoop"></audio>
+        <router-link v-for="(item, index) in rankList" v-on:click="" :to="{ path: '/count', query: { id: item.id }}">
+            <div>
+                <div class="rank-img">
+                    <img v-bind:src="item[0].albumpic_big" alt="" />
+                </div>
+                <div class="rank-list">
+                    <div v-for="(item, index) in item">
+                        {{index + 1}}.{{item.songname}}
+                    </div>
+                </div>
+            </div>
+        </router-link>
     </div>
 </template>
 
 <script>
     import { Swipe, SwipeItem, Cell } from 'mint-ui'
+    import dataGet from '../services/getData'
     export default {
         data() {
-            return {}
+            return {
+                song: null,
+                dataAutoPlay: true,
+                isLoop: true,
+                rankList: [],
+            }
         },
         components: {
             Swipe, SwipeItem, Cell
+        },
+        mounted() {
+            this.rankList = [];
+            for(var rank in dataGet) {
+                dataGet[rank].then(resp => this.rankList.push(resp.data.showapi_res_body.pagebean.songlist));
+            }
+            dataGet.getJp.then(resp => {
+                console.log(resp.data.showapi_res_body.pagebean);
+                this.song = resp.data.showapi_res_body.pagebean.songlist[0].url;
+                this.image = resp.data.showapi_res_body.pagebean.songlist[0].albumpic_big;
+            }).catch(err => {
+                console.log(err);
+            });
         }
     }
 </script>
@@ -45,21 +67,23 @@
     .home-wrapper {
         height: 250px;
     }
-    img {
+    img.header-img {
         width: 100%;
         height: 250px;
     }
-    .audio-list {
-        padding: 0;
-        width: 100%;
-    }
-    .audio-list tr td {
-        border-bottom: 1px solid #ccc;
-    }
-    .audio-list tr td:nth-child(2n+1) {
+    .rank-img {
+        display: inline-block;        
         width: 200px;
+        height: 200px;
+        overflow: hidden;
     }
-    .audio-list tr td:nth-child(2n) {
-        width: calc(100% - 200px);
+    .rank-img img {
+        width: 100%;
+        height: 100%;
+    }
+    .rank-list {
+        display: inline-block;
+        height: 200px;
+        overflow: hidden;
     }
 </style>
