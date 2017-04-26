@@ -1,33 +1,24 @@
 <template>
-    <div>
-        <swipe :auto="4000" class="home-wrapper">
+    <div class="wrapper">
+        <swipe :auto="4000" class="header-wrapper">
             <swipe-item>
-                <img class="header-img" src="../images/1482312358874_.jpg">
+                <img class="header-img" src="../assets/images/1482312358874_.jpg">
             </swipe-item>
             <swipe-item>
-                <img class="header-img" src="../images/1486821984806_.jpg">
+                <img class="header-img" src="../assets/images/1486821984806_.jpg">
             </swipe-item>
             <swipe-item>
-                <img class="header-img" src="../images/T003R720x288M000002mryCr3VtdR3.jpg">
+                <img class="header-img" src="../assets/images/T003R720x288M000002mryCr3VtdR3.jpg">
             </swipe-item>
             <swipe-item>
-                <img class="header-img" src="../images/T003R720x288M000004Zu0uz1PYd2t.jpg">
+                <img class="header-img" src="../assets/images/T003R720x288M000004Zu0uz1PYd2t.jpg">
             </swipe-item>
         </swipe>
         <audio id="music" v-bind:src="song"
              v-bind:autoplay="dataAutoPlay"
              v-bind:loop="isLoop"></audio>
         <router-link v-for="(item, index) in rankList" v-on:click="" :to="{ path: '/count', query: { id: item.id }}">
-            <div>
-                <div class="rank-img">
-                    <img v-bind:src="item[0].albumpic_big" alt="" />
-                </div>
-                <div class="rank-list">
-                    <div v-for="(item, index) in item">
-                        {{index + 1}}.{{item.songname}}
-                    </div>
-                </div>
-            </div>
+            <top-show :song-img="item[0].albumpic_big" :song-list="item"></top-show>
         </router-link>
     </div>
 </template>
@@ -35,6 +26,7 @@
 <script>
     import { Swipe, SwipeItem, Cell } from 'mint-ui'
     import dataGet from '../services/getData'
+    import TopShow from '../components/TopShow'
     export default {
         data() {
             return {
@@ -45,7 +37,7 @@
             }
         },
         components: {
-            Swipe, SwipeItem, Cell
+            Swipe, SwipeItem, Cell, TopShow
         },
         mounted() {
             this.rankList = [];
@@ -63,27 +55,16 @@
     }
 </script>
 
-<style scoped>
-    .home-wrapper {
-        height: 250px;
+<style lang="scss" scoped>
+    $headerHeight: 250px;
+    .wrapper {
+        background-image: url(../assets/images/body-bg.jpg);
+    }
+    .header-wrapper {
+        height: $headerHeight;
     }
     img.header-img {
         width: 100%;
-        height: 250px;
-    }
-    .rank-img {
-        display: inline-block;        
-        width: 200px;
-        height: 200px;
-        overflow: hidden;
-    }
-    .rank-img img {
-        width: 100%;
-        height: 100%;
-    }
-    .rank-list {
-        display: inline-block;
-        height: 200px;
-        overflow: hidden;
+        height: $headerHeight;
     }
 </style>

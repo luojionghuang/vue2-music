@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './router/router'
 import store from './store/'
-import './style/common'
+import './assets/style/common'
 import './config/rem'
 
 import 'mint-ui/lib/style.css'
