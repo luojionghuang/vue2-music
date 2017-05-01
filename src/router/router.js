@@ -1,5 +1,6 @@
 import App from '../App'
 import Home from '../page/Home'
+import SongList from '../page/SongList'
 
 export default [{
     path: '/',
@@ -7,5 +8,9 @@ export default [{
     children: [{
         path: '',
         component: Home
+    }, {
+        name: 'songList',
+        path: 'song-list/:type',
+        component: SongList
     }]
 }]

@@ -1,4 +1,5 @@
 import fetch from '../config/fetch'
+import { AMERICA, HINTERLAND, HONGKONG, JP, HOT } from './constants'
 
 //参数：歌曲数据
 const data = {
@@ -51,13 +52,28 @@ const data = {
 
 export default {
     //美国
-    getAmerica: fetch(data.america.url, data.america.params),
+    getAmerica: {
+        type: AMERICA,
+        data: fetch(data.america.url, data.america.params)
+    },
     //内地
-    getHinterland: fetch(data.hinterland.url, data.hinterland.params),
+    getHinterland: {
+        type: HINTERLAND,
+        data: fetch(data.hinterland.url, data.hinterland.params)
+    },
     //香港
-    getHongkong: fetch(data.hongkong.url, data.hongkong.params),
+    getHongkong: {
+        type: HONGKONG,
+        data: fetch(data.hongkong.url, data.hongkong.params)
+    },
     //日本
-    getJp: fetch(data.jp.url, data.jp.params),
+    getJp: {
+        type: JP,
+        data: fetch(data.jp.url, data.jp.params)
+    },
     //热榜
-    getHot: fetch(data.hot.url, data.hot.params),
+    getHot: {
+        type: HOT,
+        data: fetch(data.hot.url, data.hot.params)
+    },
 }

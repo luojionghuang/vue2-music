@@ -14,11 +14,8 @@
                 <img class="header-img" src="../assets/images/T003R720x288M000004Zu0uz1PYd2t.jpg">
             </swipe-item>
         </swipe>
-        <audio id="music" v-bind:src="song"
-             v-bind:autoplay="dataAutoPlay"
-             v-bind:loop="isLoop"></audio>
-        <router-link v-for="(item, index) in rankList" v-on:click="" :to="{ path: '/count', query: { id: item.id }}">
-            <top-show :song-img="item[0].albumpic_big" :song-list="item"></top-show>
+        <router-link v-for="(item, index) in rankList" @click="" :to="{ name: 'songList', params: { type: item.type }}">
+            <top-show :song-img="item.songList[0].albumpic_big" :song-list="item.songList"></top-show>
         </router-link>
     </div>
 </template>
@@ -30,9 +27,6 @@
     export default {
         data() {
             return {
-                song: null,
-                dataAutoPlay: true,
-                isLoop: true,
                 rankList: [],
             }
         },
@@ -41,16 +35,15 @@
         },
         mounted() {
             this.rankList = [];
-            for(var rank in dataGet) {
-                dataGet[rank].then(resp => this.rankList.push(resp.data.showapi_res_body.pagebean.songlist));
+            for(let rank in dataGet) {
+                let tmp = dataGet[rank];
+                tmp.data.then(resp => {
+                    this.rankList.push({
+                       type: tmp.type,
+                       songList: resp.data.showapi_res_body.pagebean.songlist
+                    });
+                });
             }
-            dataGet.getJp.then(resp => {
-                console.log(resp.data.showapi_res_body.pagebean);
-                this.song = resp.data.showapi_res_body.pagebean.songlist[0].url;
-                this.image = resp.data.showapi_res_body.pagebean.songlist[0].albumpic_big;
-            }).catch(err => {
-                console.log(err);
-            });
         }
     }
 </script>

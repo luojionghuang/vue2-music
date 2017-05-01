@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="rank-img">
-            <img v-bind:src="songImg" alt="" />
+            <img :src="songImg" alt="" />
         </div>
         <div class="rank-list">
             <div v-for="(item, index) in songList">
@@ -27,10 +27,13 @@
 </script>
 
 <style lang="scss">
+    $imgWidth: 200px;
+    $imgHeight: 200px;
+    $listWidth: calc(100% - 210px);
     .rank-img {
         display: inline-block;
-        width: 200px;
-        height: 200px;
+        width: $imgWidth;
+        height: $imgHeight;
         overflow: hidden;
     }
     .rank-img img {
@@ -39,7 +42,8 @@
     }
     .rank-list {
         display: inline-block;
-        height: 200px;
+        width: $listWidth;
+        height: $imgHeight;
         overflow: hidden;
     }
 </style>
